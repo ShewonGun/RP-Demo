@@ -9,12 +9,14 @@ import {
   FiUser,
   FiMenu,
   FiAlertTriangle,
+  FiShield,
 } from "react-icons/fi";
 import ThemeToggle from "../SharedComponents/ThemeToggle.jsx";
 import ConfirmationBox from "../SharedComponents/ConfirmationBox.jsx";
 import Logo from "../SharedComponents/Logo.jsx";
 import { PageFade } from "../SharedComponents/Motion.jsx";
 import { MyWaterProvider, useMyWater } from "../../Context/MyWaterContext.jsx";
+import RoleSwitcher from "../SharedComponents/RoleSwitcher.jsx";
 
 // Nav is mode-aware: prepaid households manage Plans, postpaid ones see Billing.
 const navFor = (mode) => ({
@@ -25,6 +27,7 @@ const navFor = (mode) => ({
       ? { to: "/app/billing", label: "Billing", icon: FiFileText }
       : { to: "/app/plans", label: "Plans", icon: FiPackage },
   alerts: { to: "/app/alerts", label: "Alerts", icon: FiAlertTriangle },
+  waterSafety: { to: "/app/safety", label: "Water Safety", icon: FiShield },
   account: { to: "/app/account", label: "Account", icon: FiUser },
 });
 
@@ -52,7 +55,7 @@ const Shell = () => {
     (a) => a.status === "active",
   ).length;
   // Primary tabs stay in the bar; My Usage + Account live in the right-corner menu.
-  const primary = [nav.home, nav.plans];
+  const primary = [nav.home, nav.plans, nav.waterSafety];
 
   // Close the menu on navigation.
   useEffect(() => {
@@ -99,7 +102,8 @@ const Shell = () => {
           </nav>
 
           {/* Right actions */}
-          <div className="flex flex-1 items-center justify-end gap-2 sm:gap-3">
+          <div className="flex flex-1 items-center justify-end gap-4 sm:gap-6">
+            <RoleSwitcher />
             <ThemeToggle />
 
             {/* Right-corner menu */}
@@ -156,6 +160,10 @@ const Shell = () => {
                         <NavLink to={nav.plans.to} className={menuItemClass}>
                           <nav.plans.icon className="h-4 w-4" />
                           {nav.plans.label}
+                        </NavLink>
+                        <NavLink to={nav.waterSafety.to} className={menuItemClass}>
+                          <nav.waterSafety.icon className="h-4 w-4" />
+                          {nav.waterSafety.label}
                         </NavLink>
                       </div>
 

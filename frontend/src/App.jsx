@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Pages/SharedPages/Login.jsx'
 import Signup from './Pages/SharedPages/Signup.jsx'
 import WaterLoader from './Components/SharedComponents/WaterLoader.jsx'
+import { QualityProvider } from './Context/QualityContext.jsx'
 
 // Lazy-load each role's tree so a household never downloads admin code (and vice-versa).
 const DashboardLayout = lazy(() => import('./Components/AdminComponents/DashboardLayout.jsx'))
@@ -14,6 +15,10 @@ const AdminBilling = lazy(() => import('./Pages/AdminPages/Billing.jsx'))
 const AdminAlerts = lazy(() => import('./Pages/AdminPages/Alerts.jsx'))
 const LeakAnalytics = lazy(() => import('./Pages/AdminPages/LeakAnalytics.jsx'))
 const Users = lazy(() => import('./Pages/AdminPages/Users.jsx'))
+const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
+const IntrusionAlerts = lazy(() => import('./Pages/AdminPages/IntrusionAlerts.jsx'))
+const SensorHub = lazy(() => import('./Pages/AdminPages/SensorHub.jsx'))
+const StreetRiskMatrix = lazy(() => import('./Pages/AdminPages/StreetRiskMatrix.jsx'))
 const AdminProfile = lazy(() => import('./Pages/AdminPages/Profile.jsx'))
 
 const UserLayout = lazy(() => import('./Components/UserComponents/UserLayout.jsx'))
@@ -23,6 +28,7 @@ const Plans = lazy(() => import('./Pages/UserPages/Plans.jsx'))
 const Billing = lazy(() => import('./Pages/UserPages/Billing.jsx'))
 const Account = lazy(() => import('./Pages/UserPages/Account.jsx'))
 const UserAlerts = lazy(() => import('./Pages/UserPages/Alerts.jsx'))
+const WaterSafety = lazy(() => import('./Pages/UserPages/WaterSafety.jsx'))
 
 // The landing route for a role.
 const homeFor = (role) => (role === 'admin' ? '/dashboard' : '/app')
@@ -39,51 +45,58 @@ const RequireRole = ({ role, children }) => {
 const App = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<WaterLoader fullscreen />}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+      <QualityProvider>
+        <Suspense fallback={<WaterLoader fullscreen />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
-          {/* Admin console */}
-          <Route
-            path="/dashboard"
-            element={
-              <RequireRole role="admin">
-                <DashboardLayout />
-              </RequireRole>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="packages" element={<WaterPackages />} />
-            <Route path="devices" element={<Devices />} />
-            <Route path="subscriptions" element={<Subscriptions />} />
-            <Route path="billing" element={<AdminBilling />} />
-            <Route path="alerts" element={<AdminAlerts />} />
-            <Route path="analytics" element={<LeakAnalytics />} />
-            <Route path="users" element={<Users />} />
-            <Route path="profile" element={<AdminProfile />} />
-          </Route>
+            {/* Admin console */}
+            <Route
+              path="/dashboard"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="packages" element={<WaterPackages />} />
+              <Route path="devices" element={<Devices />} />
+              <Route path="subscriptions" element={<Subscriptions />} />
+              <Route path="billing" element={<AdminBilling />} />
+              <Route path="alerts" element={<AdminAlerts />} />
+              <Route path="analytics" element={<LeakAnalytics />} />
+              <Route path="hydrotwin" element={<DigitalTwin />} />
+              <Route path="risk-matrix" element={<StreetRiskMatrix />} />
+              <Route path="quality-alerts" element={<IntrusionAlerts />} />
+              <Route path="sensor-hub" element={<SensorHub />} />
+              <Route path="users" element={<Users />} />
+              <Route path="profile" element={<AdminProfile />} />
+            </Route>
 
-          {/* Consumer app */}
-          <Route
-            path="/app"
-            element={
-              <RequireRole role="user">
-                <UserLayout />
-              </RequireRole>
-            }
-          >
-            <Route index element={<Home />} />
-            <Route path="usage" element={<Usage />} />
-            <Route path="plans" element={<Plans />} />
-            <Route path="billing" element={<Billing />} />
-            <Route path="account" element={<Account />} />
-            <Route path="alerts" element={<UserAlerts />} />
-          </Route>
+            {/* Consumer app */}
+            <Route
+              path="/app"
+              element={
+                <RequireRole role="user">
+                  <UserLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<Home />} />
+              <Route path="usage" element={<Usage />} />
+              <Route path="plans" element={<Plans />} />
+              <Route path="billing" element={<Billing />} />
+              <Route path="account" element={<Account />} />
+              <Route path="alerts" element={<UserAlerts />} />
+              <Route path="safety" element={<WaterSafety />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </Suspense>
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </Suspense>
+      </QualityProvider>
     </BrowserRouter>
   )
 }
