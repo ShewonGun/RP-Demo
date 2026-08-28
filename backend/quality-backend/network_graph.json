@@ -1,0 +1,49 @@
+{
+  "nodes": [
+    { "id": "J_100", "label": "Reservoir Intake", "x": 400, "y": 60,  "zone": "A", "type": "reservoir" },
+    { "id": "J_101", "label": "Main Junction A",  "x": 300, "y": 160, "zone": "A", "type": "junction" },
+    { "id": "J_102", "label": "Main Junction B",  "x": 500, "y": 160, "zone": "A", "type": "junction" },
+    { "id": "J_103", "label": "Ward 1 North",     "x": 180, "y": 260, "zone": "B", "type": "junction" },
+    { "id": "J_104", "label": "New Kandy Rd",     "x": 310, "y": 270, "zone": "B", "type": "junction" },
+    { "id": "J_105", "label": "Ward 2 Center",    "x": 450, "y": 260, "zone": "B", "type": "junction" },
+    { "id": "J_106", "label": "Kaduwela Rd",      "x": 580, "y": 260, "zone": "C", "type": "junction" },
+    { "id": "J_107", "label": "Ward 1 South",     "x": 150, "y": 370, "zone": "C", "type": "junction" },
+    { "id": "J_108", "label": "Industrial Zone",  "x": 280, "y": 380, "zone": "C", "type": "junction" },
+    { "id": "J_109", "label": "Residential A",    "x": 420, "y": 380, "zone": "C", "type": "junction" },
+    { "id": "J_110", "label": "East Sector",      "x": 560, "y": 380, "zone": "D", "type": "junction" },
+    { "id": "J_111", "label": "Pump Station 1",   "x": 200, "y": 480, "zone": "D", "type": "pump"     },
+    { "id": "J_112", "label": "Residential B",    "x": 350, "y": 480, "zone": "D", "type": "junction" },
+    { "id": "J_113", "label": "Hospital Zone",    "x": 480, "y": 480, "zone": "D", "type": "junction" },
+    { "id": "J_114", "label": "South Outfall",    "x": 350, "y": 570, "zone": "E", "type": "junction" },
+    { "id": "J_115", "label": "DMA Boundary",     "x": 480, "y": 570, "zone": "E", "type": "junction" }
+  ],
+  "edges": [
+    { "id": "P_01", "source": "J_100", "target": "J_101", "diameter": 300 },
+    { "id": "P_02", "source": "J_100", "target": "J_102", "diameter": 300 },
+    { "id": "P_03", "source": "J_101", "target": "J_103", "diameter": 200 },
+    { "id": "P_04", "source": "J_101", "target": "J_104", "diameter": 200 },
+    { "id": "P_05", "source": "J_102", "target": "J_105", "diameter": 200 },
+    { "id": "P_06", "source": "J_102", "target": "J_106", "diameter": 150 },
+    { "id": "P_07", "source": "J_103", "target": "J_107", "diameter": 150 },
+    { "id": "P_08", "source": "J_104", "target": "J_108", "diameter": 150 },
+    { "id": "P_09", "source": "J_104", "target": "J_109", "diameter": 150 },
+    { "id": "P_10", "source": "J_105", "target": "J_109", "diameter": 100 },
+    { "id": "P_11", "source": "J_106", "target": "J_110", "diameter": 100 },
+    { "id": "P_12", "source": "J_107", "target": "J_111", "diameter": 100 },
+    { "id": "P_13", "source": "J_108", "target": "J_112", "diameter": 100 },
+    { "id": "P_14", "source": "J_109", "target": "J_112", "diameter": 100 },
+    { "id": "P_15", "source": "J_109", "target": "J_113", "diameter": 100 },
+    { "id": "P_16", "source": "J_110", "target": "J_113", "diameter": 80  },
+    { "id": "P_17", "source": "J_111", "target": "J_114", "diameter": 80  },
+    { "id": "P_18", "source": "J_112", "target": "J_114", "diameter": 80  },
+    { "id": "P_19", "source": "J_113", "target": "J_115", "diameter": 80  },
+    { "id": "P_20", "source": "J_114", "target": "J_115", "diameter": 80  }
+  ],
+  "valves": [
+    { "id": "V_01", "pipe": "P_04", "label": "Valve V-04", "state": "open" },
+    { "id": "V_18", "pipe": "P_09", "label": "Valve V-18", "state": "open" },
+    { "id": "V_14", "pipe": "P_14", "label": "Valve V-14", "state": "open" }
+  ],
+  "anchor_node": "J_104",
+  "anchor_sensor": "SENSOR_01"
+}

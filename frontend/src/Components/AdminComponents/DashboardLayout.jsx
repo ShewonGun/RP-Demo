@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { FiGrid, FiPackage, FiCpu, FiCreditCard, FiFileText, FiAlertTriangle, FiUsers, FiLogOut, FiMenu, FiX, FiTrendingUp, FiChevronDown, FiServer, FiDollarSign, FiShield, FiSettings } from "react-icons/fi";
+import { FiGrid, FiPackage, FiCpu, FiCreditCard, FiFileText, FiAlertTriangle, FiUsers, FiLogOut, FiMenu, FiX, FiTrendingUp, FiChevronDown, FiServer, FiDollarSign, FiShield, FiSettings, FiDroplet, FiActivity } from "react-icons/fi";
 import ThemeToggle from "../SharedComponents/ThemeToggle.jsx";
 import ConfirmationBox from "../SharedComponents/ConfirmationBox.jsx";
 import Logo from "../SharedComponents/Logo.jsx";
 import { PageFade } from "../SharedComponents/Motion.jsx";
+import RoleSwitcher from "../SharedComponents/RoleSwitcher.jsx";
 
 const navSections = [
     {
@@ -25,6 +26,16 @@ const navSections = [
         items: [
             { to: "/dashboard/subscriptions", label: "Subscriptions", icon: FiCreditCard },
             { to: "/dashboard/billing", label: "Billing", icon: FiFileText },
+        ],
+    },
+    {
+        title: "Water Quality",
+        icon: FiDroplet,
+        items: [
+            { to: "/dashboard/hydrotwin", label: "Digital Twin", icon: FiActivity },
+            { to: "/dashboard/risk-matrix", label: "Street Risk Matrix", icon: FiFileText },
+            { to: "/dashboard/quality-alerts", label: "Intrusion Alerts", icon: FiAlertTriangle },
+            { to: "/dashboard/sensor-hub", label: "Sensor Hub", icon: FiServer },
         ],
     },
     {
@@ -211,7 +222,8 @@ const DashboardLayout = () => {
                     </div>
 
                     {/* Right actions */}
-                    <div className="ml-auto flex items-center gap-2">
+                    <div className="ml-auto flex items-center gap-4">
+                        <RoleSwitcher />
                         <ThemeToggle />
                         <NavLink
                             to="/dashboard/profile"
