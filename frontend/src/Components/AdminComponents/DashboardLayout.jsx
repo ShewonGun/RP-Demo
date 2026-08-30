@@ -10,7 +10,19 @@ import RoleSwitcher from "../SharedComponents/RoleSwitcher.jsx";
 const navSections = [
     {
         title: null,
-        items: [{ to: "/dashboard", label: "Overview", end: true, icon: FiGrid }],
+        items: [
+            { to: "/dashboard", label: "Dashboard", end: true, icon: FiGrid },
+            { to: "/dashboard", label: "Zones", end: true, icon: FiGrid },
+        ],
+    },
+    {
+        title: "Quick Access",
+        icon: FiGrid,
+        items: [
+            { to: "/pressure", label: "Pressure Monitoring", icon: FiActivity },
+            { to: "/alerts", label: "Alerts", icon: FiAlertTriangle },
+            { to: "/digital-twin", label: "Digital Twin", icon: FiActivity },
+        ],
     },
     {
         title: "Network",
@@ -32,7 +44,7 @@ const navSections = [
         title: "Water Quality",
         icon: FiDroplet,
         items: [
-            { to: "/dashboard/hydrotwin", label: "Digital Twin", icon: FiActivity },
+            { to: "/dashboard/hydrotwin", label: "Dashboard Twin", icon: FiActivity },
             { to: "/dashboard/risk-matrix", label: "Street Risk Matrix", icon: FiFileText },
             { to: "/dashboard/quality-alerts", label: "Intrusion Alerts", icon: FiAlertTriangle },
             { to: "/dashboard/sensor-hub", label: "Sensor Hub", icon: FiServer },

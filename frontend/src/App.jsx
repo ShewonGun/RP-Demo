@@ -20,6 +20,10 @@ const IntrusionAlerts = lazy(() => import('./Pages/AdminPages/IntrusionAlerts.js
 const SensorHub = lazy(() => import('./Pages/AdminPages/SensorHub.jsx'))
 const StreetRiskMatrix = lazy(() => import('./Pages/AdminPages/StreetRiskMatrix.jsx'))
 const AdminProfile = lazy(() => import('./Pages/AdminPages/Profile.jsx'))
+const ZoneDetails = lazy(() => import('./Pages/AdminPages/ZoneDetails.jsx'))
+const PressureMonitoring = lazy(() => import('./Pages/AdminPages/PressureMonitoring.jsx'))
+const AlertsInvestigations = lazy(() => import('./Pages/AdminPages/AlertsInvestigations.jsx'))
+const HydraulicDigitalTwin = lazy(() => import('./Pages/AdminPages/HydraulicDigitalTwin.jsx'))
 
 const UserLayout = lazy(() => import('./Components/UserComponents/UserLayout.jsx'))
 const Home = lazy(() => import('./Pages/UserPages/Home.jsx'))
@@ -73,6 +77,50 @@ const App = () => {
               <Route path="sensor-hub" element={<SensorHub />} />
               <Route path="users" element={<Users />} />
               <Route path="profile" element={<AdminProfile />} />
+            </Route>
+
+            <Route
+              path="/zone/:id"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<ZoneDetails />} />
+            </Route>
+
+            <Route
+              path="/pressure"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<PressureMonitoring />} />
+            </Route>
+
+            <Route
+              path="/alerts"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<AlertsInvestigations />} />
+            </Route>
+
+            <Route
+              path="/digital-twin"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<HydraulicDigitalTwin />} />
             </Route>
 
             {/* Consumer app */}
