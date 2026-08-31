@@ -4,7 +4,7 @@ import Login from './Pages/SharedPages/Login.jsx'
 import Signup from './Pages/SharedPages/Signup.jsx'
 import WaterLoader from './Components/SharedComponents/WaterLoader.jsx'
 
-// Lazy-load each role's tree so a household never downloads admin code (and vice-versa).
+// Lazy-load each role's tree
 const DashboardLayout = lazy(() => import('./Components/AdminComponents/DashboardLayout.jsx'))
 const Dashboard = lazy(() => import('./Pages/AdminPages/Dashboard.jsx'))
 const WaterPackages = lazy(() => import('./Pages/AdminPages/WaterPackages.jsx'))
@@ -16,6 +16,11 @@ const LeakAnalytics = lazy(() => import('./Pages/AdminPages/LeakAnalytics.jsx'))
 const Users = lazy(() => import('./Pages/AdminPages/Users.jsx'))
 const AdminProfile = lazy(() => import('./Pages/AdminPages/Profile.jsx'))
 
+// Component 3 Main Pages (3 Only)
+const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
+const DemandForecast = lazy(() => import('./Pages/AdminPages/DemandForecast.jsx'))
+const IotMonitoring = lazy(() => import('./Pages/AdminPages/IotMonitoring.jsx'))
+
 const UserLayout = lazy(() => import('./Components/UserComponents/UserLayout.jsx'))
 const Home = lazy(() => import('./Pages/UserPages/Home.jsx'))
 const Usage = lazy(() => import('./Pages/UserPages/Usage.jsx'))
@@ -24,10 +29,8 @@ const Billing = lazy(() => import('./Pages/UserPages/Billing.jsx'))
 const Account = lazy(() => import('./Pages/UserPages/Account.jsx'))
 const UserAlerts = lazy(() => import('./Pages/UserPages/Alerts.jsx'))
 
-// The landing route for a role.
 const homeFor = (role) => (role === 'admin' ? '/dashboard' : '/app')
 
-// Require a logged-in user; optionally require a specific role.
 const RequireRole = ({ role, children }) => {
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user') || 'null')
@@ -62,6 +65,11 @@ const App = () => {
             <Route path="analytics" element={<LeakAnalytics />} />
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<AdminProfile />} />
+
+            {/* Component 3 Routes (3 Only) */}
+            <Route path="digital-twin" element={<DigitalTwin />} />
+            <Route path="demand-forecast" element={<DemandForecast />} />
+            <Route path="iot-monitoring" element={<IotMonitoring />} />
           </Route>
 
           {/* Consumer app */}
@@ -81,7 +89,15 @@ const App = () => {
             <Route path="alerts" element={<UserAlerts />} />
           </Route>
 
+          {/* Public Digital Twin demo — no login required */}
+          <Route path="/digital-twin" element={<DashboardLayout />}>
+            <Route index element={<DigitalTwin />} />
+            <Route path="demand-forecast" element={<DemandForecast />} />
+            <Route path="iot-monitoring" element={<IotMonitoring />} />
+          </Route>
+
           <Route path="*" element={<Navigate to="/login" replace />} />
+
         </Routes>
       </Suspense>
     </BrowserRouter>
