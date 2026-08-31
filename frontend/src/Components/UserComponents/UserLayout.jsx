@@ -16,7 +16,6 @@ import ConfirmationBox from "../SharedComponents/ConfirmationBox.jsx";
 import Logo from "../SharedComponents/Logo.jsx";
 import { PageFade } from "../SharedComponents/Motion.jsx";
 import { MyWaterProvider, useMyWater } from "../../Context/MyWaterContext.jsx";
-import RoleSwitcher from "../SharedComponents/RoleSwitcher.jsx";
 
 // Nav is mode-aware: prepaid households manage Plans, postpaid ones see Billing.
 const navFor = (mode) => ({
@@ -103,7 +102,6 @@ const Shell = () => {
 
           {/* Right actions */}
           <div className="flex flex-1 items-center justify-end gap-4 sm:gap-6">
-            <RoleSwitcher />
             <ThemeToggle />
 
             {/* Right-corner menu */}
