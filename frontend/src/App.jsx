@@ -25,8 +25,7 @@ const PressureMonitoring = lazy(() => import('./Pages/AdminPages/PressureMonitor
 const AlertsInvestigations = lazy(() => import('./Pages/AdminPages/AlertsInvestigations.jsx'))
 const HydraulicDigitalTwin = lazy(() => import('./Pages/AdminPages/HydraulicDigitalTwin.jsx'))
 
-// Component 3 Main Pages (3 Only)
-const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
+// Component 3 Main Pages
 const DemandForecast = lazy(() => import('./Pages/AdminPages/DemandForecast.jsx'))
 const IotMonitoring = lazy(() => import('./Pages/AdminPages/IotMonitoring.jsx'))
 
@@ -58,33 +57,34 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
-          {/* Admin console */}
-          <Route
-            path="/dashboard"
-            element={
-              <RequireRole role="admin">
-                <DashboardLayout />
-              </RequireRole>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="packages" element={<WaterPackages />} />
-            <Route path="devices" element={<Devices />} />
-            <Route path="subscriptions" element={<Subscriptions />} />
-            <Route path="billing" element={<AdminBilling />} />
-            <Route path="alerts" element={<AdminAlerts />} />
-            <Route path="analytics" element={<LeakAnalytics />} />
-            <Route path="users" element={<Users />} />
-            <Route path="profile" element={<AdminProfile />} />
-            <Route path="risk-matrix" element={<StreetRiskMatrix />} />
-            <Route path="quality-alerts" element={<IntrusionAlerts />} />
-            <Route path="sensor-hub" element={<SensorHub />} />
+            {/* Admin console */}
+            <Route
+              path="/dashboard"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="packages" element={<WaterPackages />} />
+              <Route path="devices" element={<Devices />} />
+              <Route path="subscriptions" element={<Subscriptions />} />
+              <Route path="billing" element={<AdminBilling />} />
+              <Route path="alerts" element={<AdminAlerts />} />
+              <Route path="analytics" element={<LeakAnalytics />} />
+              <Route path="users" element={<Users />} />
+              <Route path="profile" element={<AdminProfile />} />
+              <Route path="risk-matrix" element={<StreetRiskMatrix />} />
+              <Route path="quality-alerts" element={<IntrusionAlerts />} />
+              <Route path="sensor-hub" element={<SensorHub />} />
+              <Route path="hydrotwin" element={<HydraulicDigitalTwin />} />
 
-            {/* Component 3 Routes (3 Only) */}
-            <Route path="digital-twin" element={<DigitalTwin />} />
-            <Route path="demand-forecast" element={<DemandForecast />} />
-            <Route path="iot-monitoring" element={<IotMonitoring />} />
-          </Route>
+              {/* Component 3 Routes */}
+              <Route path="digital-twin" element={<DigitalTwin />} />
+              <Route path="demand-forecast" element={<DemandForecast />} />
+              <Route path="iot-monitoring" element={<IotMonitoring />} />
+            </Route>
 
             <Route
               path="/zone/:id"
@@ -97,17 +97,6 @@ const App = () => {
               <Route index element={<ZoneDetails />} />
             </Route>
 
-          {/* Public Digital Twin demo — no login required */}
-          <Route path="/digital-twin" element={<DashboardLayout />}>
-            <Route index element={<DigitalTwin />} />
-            <Route path="demand-forecast" element={<DemandForecast />} />
-            <Route path="iot-monitoring" element={<IotMonitoring />} />
-          </Route>
-
-          <Route path="*" element={<Navigate to="/login" replace />} />
-
-        </Routes>
-      </Suspense>
             <Route
               path="/pressure"
               element={
