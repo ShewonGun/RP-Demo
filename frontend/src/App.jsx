@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './Pages/SharedPages/Login.jsx'
 import Signup from './Pages/SharedPages/Signup.jsx'
 import WaterLoader from './Components/SharedComponents/WaterLoader.jsx'
+import { QualityProvider } from './Context/QualityContext.jsx'
 
 // Lazy-load each role's tree
 const DashboardLayout = lazy(() => import('./Components/AdminComponents/DashboardLayout.jsx'))
@@ -14,7 +15,15 @@ const AdminBilling = lazy(() => import('./Pages/AdminPages/Billing.jsx'))
 const AdminAlerts = lazy(() => import('./Pages/AdminPages/Alerts.jsx'))
 const LeakAnalytics = lazy(() => import('./Pages/AdminPages/LeakAnalytics.jsx'))
 const Users = lazy(() => import('./Pages/AdminPages/Users.jsx'))
+const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
+const IntrusionAlerts = lazy(() => import('./Pages/AdminPages/IntrusionAlerts.jsx'))
+const SensorHub = lazy(() => import('./Pages/AdminPages/SensorHub.jsx'))
+const StreetRiskMatrix = lazy(() => import('./Pages/AdminPages/StreetRiskMatrix.jsx'))
 const AdminProfile = lazy(() => import('./Pages/AdminPages/Profile.jsx'))
+const ZoneDetails = lazy(() => import('./Pages/AdminPages/ZoneDetails.jsx'))
+const PressureMonitoring = lazy(() => import('./Pages/AdminPages/PressureMonitoring.jsx'))
+const AlertsInvestigations = lazy(() => import('./Pages/AdminPages/AlertsInvestigations.jsx'))
+const HydraulicDigitalTwin = lazy(() => import('./Pages/AdminPages/HydraulicDigitalTwin.jsx'))
 
 // Component 3 Main Pages (3 Only)
 const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
@@ -28,6 +37,7 @@ const Plans = lazy(() => import('./Pages/UserPages/Plans.jsx'))
 const Billing = lazy(() => import('./Pages/UserPages/Billing.jsx'))
 const Account = lazy(() => import('./Pages/UserPages/Account.jsx'))
 const UserAlerts = lazy(() => import('./Pages/UserPages/Alerts.jsx'))
+const WaterSafety = lazy(() => import('./Pages/UserPages/WaterSafety.jsx'))
 
 const homeFor = (role) => (role === 'admin' ? '/dashboard' : '/app')
 
@@ -42,10 +52,11 @@ const RequireRole = ({ role, children }) => {
 const App = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<WaterLoader fullscreen />}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+      <QualityProvider>
+        <Suspense fallback={<WaterLoader fullscreen />}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
           {/* Admin console */}
           <Route
@@ -65,6 +76,9 @@ const App = () => {
             <Route path="analytics" element={<LeakAnalytics />} />
             <Route path="users" element={<Users />} />
             <Route path="profile" element={<AdminProfile />} />
+            <Route path="risk-matrix" element={<StreetRiskMatrix />} />
+            <Route path="quality-alerts" element={<IntrusionAlerts />} />
+            <Route path="sensor-hub" element={<SensorHub />} />
 
             {/* Component 3 Routes (3 Only) */}
             <Route path="digital-twin" element={<DigitalTwin />} />
@@ -72,22 +86,16 @@ const App = () => {
             <Route path="iot-monitoring" element={<IotMonitoring />} />
           </Route>
 
-          {/* Consumer app */}
-          <Route
-            path="/app"
-            element={
-              <RequireRole role="user">
-                <UserLayout />
-              </RequireRole>
-            }
-          >
-            <Route index element={<Home />} />
-            <Route path="usage" element={<Usage />} />
-            <Route path="plans" element={<Plans />} />
-            <Route path="billing" element={<Billing />} />
-            <Route path="account" element={<Account />} />
-            <Route path="alerts" element={<UserAlerts />} />
-          </Route>
+            <Route
+              path="/zone/:id"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<ZoneDetails />} />
+            </Route>
 
           {/* Public Digital Twin demo — no login required */}
           <Route path="/digital-twin" element={<DashboardLayout />}>
@@ -100,6 +108,61 @@ const App = () => {
 
         </Routes>
       </Suspense>
+            <Route
+              path="/pressure"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<PressureMonitoring />} />
+            </Route>
+
+            <Route
+              path="/alerts"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<AlertsInvestigations />} />
+            </Route>
+
+            <Route
+              path="/digital-twin"
+              element={
+                <RequireRole role="admin">
+                  <DashboardLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<HydraulicDigitalTwin />} />
+            </Route>
+
+            {/* Consumer app */}
+            <Route
+              path="/app"
+              element={
+                <RequireRole role="user">
+                  <UserLayout />
+                </RequireRole>
+              }
+            >
+              <Route index element={<Home />} />
+              <Route path="usage" element={<Usage />} />
+              <Route path="plans" element={<Plans />} />
+              <Route path="billing" element={<Billing />} />
+              <Route path="account" element={<Account />} />
+              <Route path="alerts" element={<UserAlerts />} />
+              <Route path="safety" element={<WaterSafety />} />
+            </Route>
+
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </Suspense>
+      </QualityProvider>
     </BrowserRouter>
   )
 }
