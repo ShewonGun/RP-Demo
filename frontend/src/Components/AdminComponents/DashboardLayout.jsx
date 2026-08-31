@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
-import { FiGrid, FiPackage, FiCpu, FiCreditCard, FiFileText, FiAlertTriangle, FiUsers, FiLogOut, FiMenu, FiX, FiTrendingUp, FiChevronDown, FiServer, FiDollarSign, FiShield, FiSettings, FiDroplet, FiActivity, FiLayers } from "react-icons/fi";
+import { FiGrid, FiPackage, FiCpu, FiCreditCard, FiFileText, FiAlertTriangle, FiUsers, FiLogOut, FiMenu, FiX, FiTrendingUp, FiChevronDown, FiServer, FiDollarSign, FiShield, FiSettings, FiGlobe, FiBarChart2, FiSliders, FiMapPin, FiHome, FiDroplet, FiActivity, FiLayers} from "react-icons/fi";
 import ThemeToggle from "../SharedComponents/ThemeToggle.jsx";
 import ConfirmationBox from "../SharedComponents/ConfirmationBox.jsx";
 import Logo from "../SharedComponents/Logo.jsx";
@@ -55,6 +55,15 @@ const navSections = [
         items: [
             { to: "/dashboard/alerts", label: "Leak Alerts", icon: FiAlertTriangle },
             { to: "/dashboard/analytics", label: "Leak Analytics", icon: FiTrendingUp },
+        ],
+    },
+    {
+        title: "Digital Twin",
+        icon: FiGlobe,
+        items: [
+            { to: "/dashboard/digital-twin",    label: "DT Overview",      icon: FiGlobe     },
+            { to: "/dashboard/demand-forecast", label: "Demand Forecast",  icon: FiBarChart2 },
+            { to: "/dashboard/iot-monitoring",  label: "IoT Monitoring",   icon: FiCpu       },
         ],
     },
     {

@@ -5,7 +5,7 @@ import Signup from './Pages/SharedPages/Signup.jsx'
 import WaterLoader from './Components/SharedComponents/WaterLoader.jsx'
 import { QualityProvider } from './Context/QualityContext.jsx'
 
-// Lazy-load each role's tree so a household never downloads admin code (and vice-versa).
+// Lazy-load each role's tree
 const DashboardLayout = lazy(() => import('./Components/AdminComponents/DashboardLayout.jsx'))
 const Dashboard = lazy(() => import('./Pages/AdminPages/Dashboard.jsx'))
 const WaterPackages = lazy(() => import('./Pages/AdminPages/WaterPackages.jsx'))
@@ -25,6 +25,11 @@ const PressureMonitoring = lazy(() => import('./Pages/AdminPages/PressureMonitor
 const AlertsInvestigations = lazy(() => import('./Pages/AdminPages/AlertsInvestigations.jsx'))
 const HydraulicDigitalTwin = lazy(() => import('./Pages/AdminPages/HydraulicDigitalTwin.jsx'))
 
+// Component 3 Main Pages (3 Only)
+const DigitalTwin = lazy(() => import('./Pages/AdminPages/DigitalTwin.jsx'))
+const DemandForecast = lazy(() => import('./Pages/AdminPages/DemandForecast.jsx'))
+const IotMonitoring = lazy(() => import('./Pages/AdminPages/IotMonitoring.jsx'))
+
 const UserLayout = lazy(() => import('./Components/UserComponents/UserLayout.jsx'))
 const Home = lazy(() => import('./Pages/UserPages/Home.jsx'))
 const Usage = lazy(() => import('./Pages/UserPages/Usage.jsx'))
@@ -34,10 +39,8 @@ const Account = lazy(() => import('./Pages/UserPages/Account.jsx'))
 const UserAlerts = lazy(() => import('./Pages/UserPages/Alerts.jsx'))
 const WaterSafety = lazy(() => import('./Pages/UserPages/WaterSafety.jsx'))
 
-// The landing route for a role.
 const homeFor = (role) => (role === 'admin' ? '/dashboard' : '/app')
 
-// Require a logged-in user; optionally require a specific role.
 const RequireRole = ({ role, children }) => {
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user') || 'null')
@@ -55,29 +58,33 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
-            {/* Admin console */}
-            <Route
-              path="/dashboard"
-              element={
-                <RequireRole role="admin">
-                  <DashboardLayout />
-                </RequireRole>
-              }
-            >
-              <Route index element={<Dashboard />} />
-              <Route path="packages" element={<WaterPackages />} />
-              <Route path="devices" element={<Devices />} />
-              <Route path="subscriptions" element={<Subscriptions />} />
-              <Route path="billing" element={<AdminBilling />} />
-              <Route path="alerts" element={<AdminAlerts />} />
-              <Route path="analytics" element={<LeakAnalytics />} />
-              <Route path="hydrotwin" element={<DigitalTwin />} />
-              <Route path="risk-matrix" element={<StreetRiskMatrix />} />
-              <Route path="quality-alerts" element={<IntrusionAlerts />} />
-              <Route path="sensor-hub" element={<SensorHub />} />
-              <Route path="users" element={<Users />} />
-              <Route path="profile" element={<AdminProfile />} />
-            </Route>
+          {/* Admin console */}
+          <Route
+            path="/dashboard"
+            element={
+              <RequireRole role="admin">
+                <DashboardLayout />
+              </RequireRole>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="packages" element={<WaterPackages />} />
+            <Route path="devices" element={<Devices />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="billing" element={<AdminBilling />} />
+            <Route path="alerts" element={<AdminAlerts />} />
+            <Route path="analytics" element={<LeakAnalytics />} />
+            <Route path="users" element={<Users />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="risk-matrix" element={<StreetRiskMatrix />} />
+            <Route path="quality-alerts" element={<IntrusionAlerts />} />
+            <Route path="sensor-hub" element={<SensorHub />} />
+
+            {/* Component 3 Routes (3 Only) */}
+            <Route path="digital-twin" element={<DigitalTwin />} />
+            <Route path="demand-forecast" element={<DemandForecast />} />
+            <Route path="iot-monitoring" element={<IotMonitoring />} />
+          </Route>
 
             <Route
               path="/zone/:id"
@@ -90,6 +97,17 @@ const App = () => {
               <Route index element={<ZoneDetails />} />
             </Route>
 
+          {/* Public Digital Twin demo — no login required */}
+          <Route path="/digital-twin" element={<DashboardLayout />}>
+            <Route index element={<DigitalTwin />} />
+            <Route path="demand-forecast" element={<DemandForecast />} />
+            <Route path="iot-monitoring" element={<IotMonitoring />} />
+          </Route>
+
+          <Route path="*" element={<Navigate to="/login" replace />} />
+
+        </Routes>
+      </Suspense>
             <Route
               path="/pressure"
               element={
